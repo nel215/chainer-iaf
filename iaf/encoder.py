@@ -19,10 +19,10 @@ class Encoder(Chain):
         m = F.relu(self.m1(x))
         m = self.m2(m)
 
-        s = F.relu(self.s1(x))
-        s = self.s2(s)
+        ln_s = F.relu(self.s1(x))
+        ln_s = self.s2(ln_s)
 
         h = F.relu(self.h1(x))
         h = self.h2(h)
 
-        return m, s, h
+        return m, ln_s, h
