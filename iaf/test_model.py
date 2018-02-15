@@ -9,5 +9,6 @@ def test_forward():
     model = AutoregressiveNN(z_size)
     z = np.random.randn(batch_size, z_size).astype('f')
     h = np.random.randn(batch_size, h_size).astype('f')
-    z = model.forward(z, h)
+    z, loss = model.forward(z, h)
     assert z.shape == (batch_size, z_size)
+    assert loss.shape == (batch_size,)

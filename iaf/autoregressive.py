@@ -23,4 +23,5 @@ class AutoregressiveNN(Chain):
         s = F.sigmoid(self.s2(s))
 
         z = s * z + (1.-s) * m
-        return z
+        loss = -F.sum(s, axis=1)
+        return z, loss
