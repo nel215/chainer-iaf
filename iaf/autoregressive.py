@@ -24,15 +24,15 @@ class LTLinear(L.Linear):
         return linear.linear(x, self.W, self.b)
 
 
-class AutoregressiveNN(Chain):
+class AutoregressiveLinear(Chain):
 
     def __init__(self, z_size):
-        super(AutoregressiveNN, self).__init__()
+        super(AutoregressiveLinear, self).__init__()
         with self.init_scope():
-            self.m1 = L.Linear(None, z_size)
-            self.m2 = L.Linear(None, z_size)
-            self.s1 = L.Linear(None, z_size)
-            self.s2 = L.Linear(None, z_size)
+            self.m1 = LTLinear(None, z_size)
+            self.m2 = LTLinear(None, z_size)
+            self.s1 = LTLinear(None, z_size)
+            self.s2 = LTLinear(None, z_size)
 
     def forward(self, z, h):
         zh = F.concat([z, h])

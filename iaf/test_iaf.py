@@ -1,5 +1,5 @@
 import numpy as np
-from iaf import InverseAutoregressiveFlow, Encoder, AutoregressiveNN
+from iaf import InverseAutoregressiveFlow, Encoder, AutoregressiveLinear
 
 
 def test_forward():
@@ -7,7 +7,7 @@ def test_forward():
     h_size = 80
     encoder = Encoder(z_size, h_size)
     ar_models = [
-        AutoregressiveNN(z_size)
+        AutoregressiveLinear(z_size)
     ]
     model = InverseAutoregressiveFlow(encoder, ar_models)
 
