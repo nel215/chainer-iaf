@@ -26,23 +26,13 @@ class LTLinear(L.Linear):
 
 class AutoregressiveLinear(Chain):
 
-    def __init__(self, z_size):
+    def __init__(self, n_out):
         super(AutoregressiveLinear, self).__init__()
         with self.init_scope():
-            self.m1 = LTLinear(None, z_size)
-            self.m2 = LTLinear(None, z_size)
-            self.s1 = LTLinear(None, z_size)
-            self.s2 = LTLinear(None, z_size)
+            self.l0 = LTLinear(None, n_out)
+            self.l1 = LTLinear(None, n_out)
 
-    def forward(self, z, h):
-        zh = F.concat([z, h])
-
-        m = F.relu(self.m1(zh))
-        m = self.m2(m)
-
-        s = F.relu(self.s1(zh))
-        s = F.sigmoid(self.s2(s))
-
-        z = s * z + (1.-s) * m
-        loss = -F.sum(s, axis=1)
-        return z, loss
+    def __call__(self, x):
+        h = F.relu(self.l0(x))
+        y = self.l1(h)
+        return y
