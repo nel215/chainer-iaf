@@ -1,18 +1,23 @@
 from chainer import Chain
 from chainer import functions as F
+from iaf.model import FCEncoder
 
 
 class VAE(Chain):
 
-    def __init__(self, encoder, iaflow, decoder):
+    def __init__(self, n_z, n_h, iaflow, decoder):
         super(VAE, self).__init__()
         with self.init_scope():
-            self.encoder = encoder
+            self.mu_encoder = FCEncoder(n_z, 100)
+            self.sigma_encoder = FCEncoder(n_z, 100)
+            self.h_encoder = FCEncoder(n_h, 100)
             self.iaflow = iaflow
             self.decoder = decoder
 
     def forward(self, x):
-        mu, sigma, h = self.encoder(x)
+        mu = self.mu_encoder(x)
+        sigma = self.sigma_encoder(x)
+        h = self.h_encoder(x)
         z, iaflow_loss = self.iaflow(mu, sigma, h)
         y = self.decoder(z)
         loss = 0
