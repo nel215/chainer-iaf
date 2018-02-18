@@ -34,3 +34,8 @@ class VAE(Chain):
     def __call__(self, x):
         _, loss = self.forward(x)
         return loss
+
+    def generate(self, x):
+        with chainer.using_config('train', False), chainer.no_backprop_mode():
+            y, _ = self.forward(x)
+            return F.sigmoid(y).data
