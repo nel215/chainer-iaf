@@ -1,6 +1,6 @@
 import numpy as np
 from numpy.testing import assert_almost_equal
-from iaf.autoregressive import LTLinear
+from iaf.model.autoregressive import LTLinear
 
 
 def test_call():
