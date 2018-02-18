@@ -2,7 +2,6 @@ import chainer
 from chainer import Chain
 from chainer import functions as F
 from iaf.model import FCEncoder
-from chainer import Link
 
 
 class VAE(Chain):

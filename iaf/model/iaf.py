@@ -1,7 +1,5 @@
 import math
-import numpy as np
 from chainer import Chain, ChainList
-from chainer import links as L
 from chainer import functions as F
 
 
@@ -31,7 +29,7 @@ class InverseAutoregressiveFlow(ChainList):
         z = F.exp(ln_s) * eps + mu
         loss = -F.sum(ln_s + 0.5*eps**2 + 0.5*math.log(2*math.pi), axis=1)
         for iaf_block in self.children():
-            z, l = iaf_block(z, h)
-            loss += l
+            z, block_loss = iaf_block(z, h)
+            loss += block_loss
 
         return z, loss

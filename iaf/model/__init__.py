@@ -1,5 +1,5 @@
-from iaf.model.encoder import FCEncoder
-from iaf.model.decoder import FCDecoder
-from iaf.model.iaf import InverseAutoregressiveFlow, IAFBlock
-from iaf.model.autoregressive import AutoregressiveLinear
-from iaf.model.vae import VAE
+from iaf.model.encoder import FCEncoder  # noqa
+from iaf.model.decoder import FCDecoder  # noqa
+from iaf.model.iaf import InverseAutoregressiveFlow, IAFBlock  # noqa
+from iaf.model.autoregressive import AutoregressiveLinear  # noqa
+from iaf.model.vae import VAE  # noqa
