@@ -1,4 +1,5 @@
 from chainer import Chain
+from chainer import functions as F
 
 
 class VAE(Chain):
@@ -13,8 +14,10 @@ class VAE(Chain):
     def forward(self, x):
         mu, sigma, h = self.encoder(x)
         z, iaflow_loss = self.iaflow(mu, sigma, h)
-        y, decoder_loss = self.decoder(z)
-        loss = iaflow_loss + decoder_loss
+        y = self.decoder(z)
+        loss = 0
+        loss += iaflow_loss
+        loss += F.bernoulli_nll(x, y, reduce='no')
         return y, loss
 
     def __call__(self, x):
