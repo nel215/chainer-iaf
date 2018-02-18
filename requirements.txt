@@ -1,0 +1,6 @@
+chainer==3.3.0
+cupy==2.3.0
+matplotlib==2.1.2
+pytest==3.4.0
+seaborn==0.8.1
+flake8==3.5.0
