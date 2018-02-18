@@ -1,6 +1,8 @@
+import chainer
 from chainer import Chain
 from chainer import functions as F
 from iaf.model import FCEncoder
+from chainer import Link
 
 
 class VAE(Chain):
@@ -18,11 +20,16 @@ class VAE(Chain):
         mu = self.mu_encoder(x)
         ln_s = self.sigma_encoder(x)
         h = self.h_encoder(x)
-        z, iaflow_loss = self.iaflow(mu, ln_s, h)
+        z, iaf_loss = self.iaflow(mu, ln_s, h)
         y = self.decoder(z)
-        loss = 0
-        loss += iaflow_loss
-        loss += F.bernoulli_nll(x, y, reduce='no')
+        iaf_loss = F.sum(iaf_loss) / x.shape[0]
+        rec_loss = F.bernoulli_nll(x, y) / x.shape[0]
+        loss = 0.1 * iaf_loss + rec_loss
+
+        chainer.report(
+            {'loss': loss, 'iaf_loss': iaf_loss, 'rec_loss': rec_loss},
+            observer=self,
+        )
         return y, loss
 
     def __call__(self, x):
