@@ -1,6 +1,6 @@
 import math
 import numpy as np
-from chainer import Chain
+from chainer import Chain, ChainList
 from chainer import links as L
 from chainer import functions as F
 
@@ -24,18 +24,13 @@ class IAFBlock(Chain):
         return z, loss
 
 
-class InverseAutoregressiveFlow(Chain):
-
-    def __init__(self, iaf_blocks):
-        super(InverseAutoregressiveFlow, self).__init__()
-        with self.init_scope():
-            self.iaf_blocks = iaf_blocks
+class InverseAutoregressiveFlow(ChainList):
 
     def __call__(self, mu, ln_s, h):
         eps = self.xp.random.standard_normal(mu.shape).astype('f')
         z = F.exp(ln_s) * eps + mu
         loss = -F.sum(ln_s + 0.5*eps**2 + 0.5*math.log(2*math.pi), axis=1)
-        for iaf_block in self.iaf_blocks:
+        for iaf_block in self.children():
             z, l = iaf_block(z, h)
             loss += l
 
