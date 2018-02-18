@@ -10,9 +10,13 @@ class LTLinear(L.Linear):
     """
     Lower Triangle Linear
     """
+    def __init__(self, *args, **kwargs):
+        super(LTLinear, self).__init__(*args, **kwargs)
+        self.add_persistent('triu_indices', None)
+
     def _initialize_params(self, in_size):
         super(LTLinear, self)._initialize_params(in_size)
-        self.triu_indices = np.triu_indices(in_size, m=self.out_size)
+        self.triu_indices = np.array(np.triu_indices(in_size, m=self.out_size))
         self.W.data[self.triu_indices] = 0
 
     def __call__(self, x):
