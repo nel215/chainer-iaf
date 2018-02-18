@@ -16,9 +16,9 @@ class VAE(Chain):
 
     def forward(self, x):
         mu = self.mu_encoder(x)
-        sigma = self.sigma_encoder(x)
+        ln_s = self.sigma_encoder(x)
         h = self.h_encoder(x)
-        z, iaflow_loss = self.iaflow(mu, sigma, h)
+        z, iaflow_loss = self.iaflow(mu, ln_s, h)
         y = self.decoder(z)
         loss = 0
         loss += iaflow_loss
