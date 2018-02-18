@@ -1,5 +1,7 @@
 # Inverse Autoregressive Flow
 
+[![Build Status](https://travis-ci.org/nel215/chainer-iaf.svg?branch=master)](https://travis-ci.org/nel215/chainer-iaf)
+
 ## Usage
 
 ```
